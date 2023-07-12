@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: spring-boot-hello
-  namespace: springboot
+  namespace: argocd
   labels:
     app: spring-boot-hello
 spec:
