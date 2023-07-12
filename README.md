@@ -13,3 +13,28 @@
     DES: which adds SSO cabilities 
     Redis: used for caching. Because these use statefull sets. So need to cache the information.
 
+1. Install Argo CD:
+All the components of Argo CD can be installed using a manifest provided by the Argo Project. Note the outputs below that you should see.
+
+       kubectl create namespace argocd
+2. Apply the manifest to install required Argo CD kubernetes objects
+   
+       kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+3. Download With Curl
+
+        curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+        sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+        rm argocd-linux-amd64
+
+4. Access the argoCd app via Load Balancer
+
+        kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+5. To list all the clusters
+ 
+        kubectl config get-contexts -o name
+
+6. Login to Argocd UI via CLI
+
+        argocd admin initial-password -n argocd
+
