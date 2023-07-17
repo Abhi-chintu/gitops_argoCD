@@ -11,7 +11,7 @@ spec:
     targetRevision: HEAD
     path: kubernetes
   destination: 
-    server: https://CFE04BC67C1D1FF4EBB8872C9F59AE4C.gr7.ap-south-1.eks.amazonaws.com
+    server: https://172.31.15.87::32080
     namespace: myapp
 
   syncPolicy:
