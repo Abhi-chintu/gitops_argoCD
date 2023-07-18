@@ -30,11 +30,29 @@ All the components of Argo CD can be installed using a manifest provided by the 
 
         kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 
+4.1 Accessing the application using nodeport 
+
+        kubectl get svc -n argocd
+        kubectl edit svc argocd-server -n argocd
+
+<img width="269" alt="image" src="https://github.com/Abhi-chintu/gitops_argoCD/assets/94033251/2cabe367-c2f2-4778-bf36-767bf972da59">
+
+4.2 Open the ports in worker node and check in browser to see argocd in UI
+
 5. To list all the clusters
  
         kubectl config get-contexts -o name
 
-6. Login to Argocd UI via CLI
+6. Login to Argocd UI
 
-        argocd admin initial-password -n argocd
+       kubectl get secret argocd-initial-admin-secret -n argocd -o yaml
+       echo <password> | base64 --decode
+
+7. Connect your git-repo to the argocd application in UI
+8. Apply application.yaml file in ec2-instance
+
+       kubectl apply -f application.yaml 
+       
+
+        
 
