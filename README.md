@@ -20,11 +20,16 @@ All the components of Argo CD can be installed using a manifest provided by the 
 2. Apply the manifest to install required Argo CD kubernetes objects
    
        kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-3. Download With Curl
+3. Download With Curl CLI tool
 
-        curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-        sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-        rm argocd-linux-amd64
+        curl -sSL -o /usr/bin/argocd https://github.com/argoproj/argo-cd/releases/download/v1.8.3/argocd-linux-amd64
+        chmod +x /usr/bin/argocd
+        argocd version
+
+3.1 Here's how you can set the Argo CD server address:
+        
+        argocd login <Loadbalancer-DNS>
+
 
 4. Access the argoCd app via Load Balancer
 
@@ -51,8 +56,27 @@ All the components of Argo CD can be installed using a manifest provided by the 
 7. Connect your git-repo to the argocd application in UI
 8. Apply application.yaml file in ec2-instance
 
-       kubectl apply -f application.yaml 
-       
+       kubectl apply -f application.yaml
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ **If You want to install argocd using HELM** 
+
+ PreRequisite:
+ Download helm
+
+     kubectl create namespace argocd
+     helm repo add argo-cd https://argoproj.github.io/argo-helm
+     helm install argocd argo-cd/argo-cd --namespace argocd
+
+9. Expose the ArgoCD API Server:
+
+         kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
+
+10. Retrieve the ArgoCD Initial Password:
+
+        kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+
+    
 
         
 
